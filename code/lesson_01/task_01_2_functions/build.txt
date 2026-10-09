@@ -1,0 +1,29 @@
+СБОРКА ЗАДАНИЯ 01.II (функции и организация кода)
+=================================================
+
+Проект состоит из пяти файлов в одной папке:
+   sum_required.h   — объявление "требуемой" функции
+   sum_required.cpp — её реализация
+   sum_modified.h   — объявление "модифицированной" функции
+   sum_modified.cpp — её реализация
+   main.cpp         — точка входа, вызов обеих функций
+
+ВАРИАНТ 1. Командная строка (MSVC):
+   cl /std:c++17 /EHsc /W4 main.cpp sum_required.cpp sum_modified.cpp /Fe:app.exe
+   .\app.exe
+
+ВАРИАНТ 2. Командная строка (g++):
+   g++ -std=c++17 -Wall -Wextra main.cpp sum_required.cpp sum_modified.cpp -o app
+   ./app
+
+ВАРИАНТ 3. В Visual Studio: создать проект "Empty Project", добавить все 5 файлов
+и собрать. Важно: .cpp-файлы обязательно должны быть добавлены в проект,
+иначе будет ошибка линковки (unresolved external symbol).
+
+Пример работы программы:
+   Enter two integers: 3 4
+   --- required function ---
+   Sum(3, 4) = 7
+   --- modified function ---
+     extra = 57
+   ModifiedSum(3, 4) = 64

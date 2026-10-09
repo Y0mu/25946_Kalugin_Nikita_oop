@@ -1,0 +1,37 @@
+ЗАДАНИЕ 5.I. СБОРКА ЧЕРЕЗ CMAKE (только командная строка!)
+==========================================================
+
+IDE не используем: ни создание проекта через Visual Studio, ни кнопку "Запустить".
+
+1) Генерация системы сборки (из корня проекта, где лежит CMakeLists.txt):
+
+   cmake -S . -B build
+
+   Можно явно указать генератор, например:
+   cmake -S . -B build -G "Visual Studio 17 2022"      (MSVC)
+   cmake -S . -B build -G "MinGW Makefiles"            (g++/MinGW)
+   cmake -S . -B build -G "Ninja"                      (ninja, g++)
+
+   Полезно посмотреть доступные генераторы:
+   cmake --help
+
+2) Сборка:
+
+   cmake --build build
+
+   Для конфигураций MSVC (Debug/Release):
+   cmake --build build --config Release
+
+3) Запуск:
+
+   .\build\Debug\exec_trg.exe        (MSVC)
+   .\build\exec_trg.exe              (MinGW/Ninja)
+   ./build/exec_trg                  (Linux/WSL)
+
+4) Полная пересборка с нуля (если что-то запуталось):
+
+   cmake -S . -B build --fresh
+   cmake --build build
+
+Что должно получиться: программа спрашивает два числа, печатает результаты
+my_lib::Sum и my_random::RandomSum, а также версию библиотеки.

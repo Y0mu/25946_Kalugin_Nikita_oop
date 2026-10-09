@@ -1,0 +1,41 @@
+# Файл .gitignore — какие файлы Git отслеживает, а какие нет.
+#
+# В этом репозитории на GitHub должны лежать ТОЛЬКО решения из папки code/.
+# Лекции, задания и методички остаются на компьютере, но не отправляются на GitHub.
+
+# 1) По умолчанию игнорируем вообще всё.
+*
+
+# 2) Разрешаем сам .gitignore, папку code и всё, что внутри неё.
+!.gitignore
+!code/
+!code/**
+
+# 3) Эти файлы не нужны даже внутри code: результаты сборки и мусор редакторов.
+code/**/*.exe
+code/**/*.obj
+code/**/*.o
+code/**/*.out
+code/**/*.a
+code/**/*.so
+code/**/*.dll
+code/**/*.pdb
+code/**/*.ilk
+
+code/**/build/
+code/**/build-*/
+code/**/cmake-build-*/
+code/**/CMakeCache.txt
+code/**/CMakeFiles/
+code/**/cmake_install.cmake
+
+code/**/_deps/
+code/**/*.tmp
+code/**/*.log
+code/**/*.bak
+code/**/.vs/
+code/**/.vscode/
+
+# Пояснение: файл code/lesson_03/task_03_4_containers_homework/table.md
+# специально оставляем в репозитории — это результат работы программы,
+# который нужно показать преподавателю.

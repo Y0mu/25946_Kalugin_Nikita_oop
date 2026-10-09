@@ -1,0 +1,72 @@
+ЗАДАНИЕ 5.III. СБОРКА И ЗАПУСК ТЕСТОВ (GoogleTest)
+==================================================
+
+Структура проекта:
+   CMakeLists.txt
+   main.cpp
+   my_lib/     <- библиотека (my_lib.h/cpp)
+   tests/      <- тесты (my_tests.cpp, CMakeLists.txt)
+
+СБОРКА
+------
+   cmake -S . -B build
+   cmake --build build
+   cmake --build build --config Release      (для MSVC)
+
+GoogleTest скачивается автоматически на этапе конфигурации (FetchContent).
+Нужен доступ в интернет при первой сборке. Если интернета нет, но googletest
+уже скачан или установлен, используйте один из вариантов:
+
+   cmake -S . -B build -DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=C:/libs/googletest
+   или замените в tests/CMakeLists.txt блок FetchContent на find_package(GTest CONFIG REQUIRED)
+
+ЗАПУСК ТЕСТОВ — ДВА СПОСОБА
+----------------------------
+1) Запустить сам исполняемый файл с тестами:
+
+   .\build\tests\Debug\my_tests.exe        (MSVC)
+   .\build\tests\my_tests.exe              (MinGW/Ninja)
+   ./build/tests/my_tests                  (Linux/WSL)
+
+   Полезные ключи GoogleTest:
+   my_tests --gtest_list_tests             — показать список тестов
+   my_tests --gtest_filter=SumTestSuite.*  — запустить только один набор
+   my_tests --gtest_repeat=3               — повторить тесты три раза
+
+2) Через CTest (он знает про тесты благодаря gtest_discover_tests):
+
+   cd build
+   ctest
+   ctest --output-on-failure               — показать вывод упавших тестов
+   ctest -R SumTestSuite                   — запустить только выбранные тесты
+
+ПРОВАЛЬНЫЕ ТЕСТЫ
+-----------------
+В файле tests/my_tests.cpp в конце есть два теста с приставкой DISABLED_:
+они не запускаются, поэтому "все тесты проходят". Чтобы показать падение,
+уберите приставку DISABLED_, например:
+
+   TEST(FailingTestSuite, DISABLED_ExpectFailsButTestContinues)
+   ->
+   TEST(FailingTestSuite, ExpectFailsButTestContinues)
+
+после чего пересоберите проект и запустите тесты снова. Ожидаемый результат:
+
+   [  FAILED  ] FailingTestSuite.ExpectFailsButTestContinues
+   my_tests.cpp:...: Failure
+   Expected equality of these values:
+     my_lib::Sum(2, 2)
+       Which is: 4
+     5
+   my_tests.cpp:...: Failure        <- ВТОРАЯ ошибка тоже показана: EXPECT_ не останавливает тест
+   ...
+   [  FAILED  ] FailingTestSuite.AssertFailsAndStops
+   my_tests.cpp:...: Failure
+   Expected equality of these values:
+     my_lib::Sum(2, 2)
+       Which is: 4
+     5
+   <- и всё: после ASSERT_ тест оборвался, до следующей проверки дело не дошло
+
+В этом и разница: ASSERT_* — критический отказ (тест сразу прекращается),
+EXPECT_* — некритический (тест идёт дальше и показывает все ошибки сразу).
