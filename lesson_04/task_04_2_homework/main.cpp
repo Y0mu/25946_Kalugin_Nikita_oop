@@ -1,4 +1,4 @@
-﻿#include <algorithm>
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -8,7 +8,6 @@
 #include <utility>
 #include <vector>
 
-// Чтобы не писать std:: перед каждым именем из стандартной библиотеки.
 using namespace std;
 
 namespace {
@@ -30,7 +29,6 @@ pair<vector<int>, bool> ReadNumbers(const string& fileName) {
 
     return { numbers, true };
 }
-
 // Сколько раз встречается каждое число в векторе.
 map<int, int> CountValues(const vector<int>& numbers) {
     map<int, int> counts;
@@ -39,7 +37,6 @@ map<int, int> CountValues(const vector<int>& numbers) {
     }
     return counts;
 }
-
 // Печатает "число (сколько раз)" через запятую.
 void PrintValuesWithCounts(const vector<int>& values,
                            const map<int, int>& counts) {
@@ -51,9 +48,7 @@ void PrintValuesWithCounts(const vector<int>& values,
     }
     cout << '\n';
 }
-
-}  // namespace
-
+}
 int main() {
     pair<vector<int>, bool> firstRead = ReadNumbers("data1.txt");
     pair<vector<int>, bool> secondRead = ReadNumbers("data2.txt");
