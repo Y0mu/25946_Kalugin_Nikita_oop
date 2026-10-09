@@ -1,41 +1,55 @@
-# Файл .gitignore — какие файлы Git отслеживает, а какие нет.
-#
-# В этом репозитории на GitHub должны лежать ТОЛЬКО решения из папки code/.
-# Лекции, задания и методички остаются на компьютере, но не отправляются на GitHub.
+# Файл .gitignore — какие файлы Git не отслеживает.
+# Смысл: в репозитории храним только исходный код и данные,
+# а результаты сборки и файлы среды разработки — нет.
 
-# 1) По умолчанию игнорируем вообще всё.
-*
+# ---- Результаты сборки C++ ----
+*.exe
+*.obj
+*.o
+*.out
+*.pdb
+*.ilk
+*.idb
+*.exp
+*.lib
+*.dll
+*.so
+*.a
 
-# 2) Разрешаем сам .gitignore, папку code и всё, что внутри неё.
-!.gitignore
-!code/
-!code/**
+# ---- Артефакты CMake ----
+build/
+build-*/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
 
-# 3) Эти файлы не нужны даже внутри code: результаты сборки и мусор редакторов.
-code/**/*.exe
-code/**/*.obj
-code/**/*.o
-code/**/*.out
-code/**/*.a
-code/**/*.so
-code/**/*.dll
-code/**/*.pdb
-code/**/*.ilk
+# ---- GoogleTest, скачанный через FetchContent ----
+_deps/
 
-code/**/build/
-code/**/build-*/
-code/**/cmake-build-*/
-code/**/CMakeCache.txt
-code/**/CMakeFiles/
-code/**/cmake_install.cmake
+# ---- Временные и служебные файлы ----
+*.tmp
+*.log
+*.bak
+*.orig
+*.rej
+*~
+*.swp
 
-code/**/_deps/
-code/**/*.tmp
-code/**/*.log
-code/**/*.bak
-code/**/.vs/
-code/**/.vscode/
+# ---- Файлы IDE и редакторов ----
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
 
-# Пояснение: файл code/lesson_03/task_03_4_containers_homework/table.md
-# специально оставляем в репозитории — это результат работы программы,
-# который нужно показать преподавателю.
+# ---- Системные файлы Windows ----
+Thumbs.db
+desktop.ini
+Desktop.ini
+$RECYCLE.BIN/
+
+# Файл lesson_03/task_03_4_containers_homework/table.md специально остаётся
+# в репозитории: это результат работы программы, который нужно показать.
